@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="row text-center header-row">
+        <div class="col-12">
+            <h1>{{'Food Roulette'}}</h1>
+        </div>
+    </div>
+    <div class="row text-center btn-find-meal-row">
+        <div class="col-12">
+            <button mat-raised-button color="primary" (click)="setRandomMeal()" [disabled]="isLoading">{{randomMeal &&
+                translatedInstructions.length > 0 && materialsStr.length > 0 ? "Let's find me a meal!" : "Let's find another meal!"}}</button>
+        </div>
+    </div>
+    <div *ngIf="isLoading" class="row text-center">
+        <div class="col-12">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+    </div>
+    <div *ngIf="randomMeal && !isLoading" class="row text-center">
+        <div class="col-12">
+            <img class="meal-img" [src]="randomMeal.strMealThumb" />
+        </div>
+    </div>
+    <div id="pdfTable" #pdfTable>
+        <div *ngIf="randomMeal && !isLoading" class="row text-center">
+            <div class="col-12">
+                <h2>{{randomMeal.strMeal}}</h2>
+            </div>
+        </div>
+        
+        <div class="row text-center">
+            <div class="col-12">
+                <ng-container *ngIf="translatedInstructions && !isLoading">
+                    <div class="container-fluid">
+                        <div *ngIf="materialsArr" class="row">
+                            <div class="col">
+                                <h3><b>Ingredients:</b></h3>
+                                <hr />
+                                <p>{{translatedMaterials}}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <h3><b>How to make?</b></h3>
+                                <hr />
+                                {{translatedInstructions}}
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="!isLoading && randomMeal" class="row text-center pb-4">
+        <div class="col-12">
+            <button mat-fab color="primary" style="margin-right: 1rem;" aria-label="Example icon button with a bookmark icon" (click)="downloadAsPDF();">
+                <mat-icon>download</mat-icon>
+            </button>
+            <button mat-fab color="primary" aria-label="Example icon button with a bookmark icon" (click)="goToVideo(randomMeal.strYoutube);" [disabled]="randomMeal.strYoutube.length === 0">
+                <mat-icon>play_circle_filled</mat-icon>
+            </button>
+        </div>
+    </div>
+
+</div>
